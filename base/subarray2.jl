@@ -165,6 +165,6 @@ end
 
 unsafe_getindex(v::Real, ind::Int) = v
 unsafe_getindex(v::Range, ind::Int) = first(v) + (ind-1)*step(v)
-unsafe_getindex(v::AbstractArray, ind::Int) = v[ind]
+@inline unsafe_getindex(v::AbstractArray, ind::Int) = (@inbounds x = v[ind]; x)
 unsafe_getindex(v::Colon, ind::Int) = ind
 unsafe_getindex(v, ind::Real) = unsafe_getindex(v, to_index(ind))
